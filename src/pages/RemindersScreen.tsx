@@ -465,43 +465,6 @@ const RemindersScreen: React.FC = () => {
       background: 'linear-gradient(135deg, #E6E6FA 0%, #F0F8FF 50%, #FFE5B4 100%)'
     }}>
       <div style={{ padding: '0 20px' }}>
-        {/* Enable Push Notifications Button */}
-        <button
-          onClick={async () => {
-            setLoading(true);
-            setNotifStatus(null);
-            if (user?.id) {
-              const token = await requestAndSaveFcmToken(user.id);
-              if (token) {
-                setNotifStatus('Push notifications enabled and token saved!');
-              } else {
-                setNotifStatus('Failed to enable push notifications. Check console for errors.');
-              }
-            } else {
-              setNotifStatus('You must be logged in to enable notifications.');
-            }
-            setLoading(false);
-          }}
-          disabled={loading}
-          style={{
-            background: 'linear-gradient(90deg, #8B5CF6 0%, #10B981 100%)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '12px 20px',
-            fontWeight: 700,
-            fontSize: '16px',
-            fontFamily: 'Nunito',
-            marginBottom: '20px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            boxShadow: '0 2px 8px rgba(139, 92, 246, 0.1)'
-          }}
-        >
-          {loading ? 'Enabling...' : 'Enable Push Notifications'}
-        </button>
-        {notifStatus && (
-          <div style={{ color: notifStatus.includes('enabled') ? 'green' : 'red', marginTop: 8 }}>{notifStatus}</div>
-        )}
         {/* Header */}
         <div style={{
           display: 'flex',

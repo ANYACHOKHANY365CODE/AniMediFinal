@@ -58,7 +58,13 @@ const MedicalRecordsScreen: React.FC = () => {
   const [activeView, setActiveView] = useState('report');
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
 
+useEffect(() => {
+  const handleResize = () => setIsMobile(window.innerWidth <= 640);
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
   const sidebarItems = [
     { view: 'report', Icon: Sparkles, title: 'AI Health Report', description: "Real-time health summary", color: '#8B5CF6' },
     { view: 'upload', Icon: BookOpen, title: 'Manage Records', description: "Upload & view documents", color: '#10B981' },
@@ -1137,14 +1143,19 @@ const MedicalRecordsScreen: React.FC = () => {
           justifyContent: 'space-between',
           padding: '40px 0 20px'
         }}>
-          <motion.button 
-            onClick={() => navigate(-1)} 
-            className="p-3 rounded-full bg-white/70 backdrop-blur-sm shadow-md"
-            whileHover={{ scale: 1.05, boxShadow: "0px 5px 15px rgba(0,0,0,0.1)"}}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
-          </motion.button>
+          <motion.button
+  onClick={() => navigate(-1)}
+  className="p-3 rounded-full bg-gradient-to-br from-purple-200 via-white to-purple-100 shadow-lg border-2 border-purple-300 hover:border-purple-500 transition"
+  whileHover={{ scale: 1.08, boxShadow: "0px 8px 24px rgba(139,92,246,0.15)" }}
+  whileTap={{ scale: 0.95 }}
+  style={{
+    boxShadow: '0 4px 16px rgba(139, 92, 246, 0.10)',
+    transition: 'all 0.2s'
+  }}
+>
+  <ArrowLeft className="w-6 h-6 text-purple-600" />
+</motion.button>
+
           <AnimatePresence mode="wait">
             {showSearch ? (
               <motion.div
@@ -1154,13 +1165,18 @@ const MedicalRecordsScreen: React.FC = () => {
                 exit={{ opacity: 0, width: 0 }}
                 className="flex-1 mx-4"
               >
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search records and logs..."
-                  className="w-full px-4 py-2.5 text-md bg-white/70 backdrop-blur-sm rounded-full border-2 border-transparent focus:border-purple-400 focus:outline-none transition"
-                />
+               <input
+  type="text"
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  placeholder="Search records and logs..."
+  className="w-full px-5 py-3 text-md bg-white rounded-xl border-2 border-purple-200 focus:border-purple-500 shadow-md focus:outline-none transition"
+  style={{
+    fontFamily: 'Nunito',
+    fontSize: '16px',
+    boxShadow: '0 2px 8px rgba(139, 92, 246, 0.08)'
+  }}
+/>
               </motion.div>
             ) : (
               <motion.h1 
@@ -1192,80 +1208,93 @@ const MedicalRecordsScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto" style={{ padding: '0 20px' }}>
         {/* Horizontal Navigation */}
         <div className="mb-8 mt-4">
-          <nav className="flex items-stretch justify-center max-w-3xl mx-auto">
-            {sidebarItems.map((item, index) => {
-              const { view, Icon, title, description, color } = item;
-              const isActive = activeView === view;
-              
-              const borderRadius = 
-                index === 0 ? '16px 0 0 16px' :
-                index === sidebarItems.length - 1 ? '0 16px 16px 0' :
-                '0';
-
-              return (
-                <motion.div
-                  key={view}
-                  onClick={() => setActiveView(view)}
-                  className="flex-1 card-hover"
-                  animate={{
-                    backgroundColor: isActive ? `${color}20` : 'rgba(255, 255, 255, 0.7)',
-                    borderColor: isActive ? color : 'rgba(229, 231, 235, 0.7)',
-                    zIndex: isActive ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  whileHover={{ y: -3, scale: 1.01, zIndex: 2 }}
-                  whileTap={{ scale: 0.99 }}
-                  style={{
-                    position: 'relative',
-                    padding: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    border: '2px solid rgba(229, 231, 235, 0.7)',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: borderRadius,
-                    marginLeft: index === 0 ? '0' : '-2px',
-                  }}
-                >
-                  <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: '16px',
-                    flexShrink: 0,
-                    background: `${color}20`,
-                  }}>
-                    <Icon size={24} color={color} />
-                  </div>
-                  <div>
-                    <h4 style={{
-                      fontSize: '16px',
-                      fontWeight: '700',
-                      color: isActive ? color : '#374151',
-                      fontFamily: 'Nunito',
-                      margin: '0 0 2px 0',
-                      transition: 'color 0.3s'
-                    }}>
-                      {title}
-                    </h4>
-                    <p style={{
-                      fontSize: '13px',
-                      color: '#6B7280',
-                      fontFamily: 'Nunito',
-                      margin: 0,
-                    }}>
-                      {description}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </nav>
-        </div>
+  {isMobile ? (
+    <div className="mb-4">
+      <select
+        value={activeView}
+        onChange={e => setActiveView(e.target.value)}
+        className="w-full p-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-semibold shadow-sm focus:border-purple-400 focus:outline-none"
+        style={{ fontFamily: 'Nunito', fontSize: '16px' }}
+      >
+        {sidebarItems.map(item => (
+          <option key={item.view} value={item.view}>{item.title}</option>
+        ))}
+      </select>
+    </div>
+  ) : (
+    <nav className="flex items-stretch justify-center max-w-3xl mx-auto">
+      {sidebarItems.map((item, index) => {
+        const { view, Icon, title, description, color } = item;
+        const isActive = activeView === view;
+        const borderRadius =
+          index === 0 ? '16px 0 0 16px' :
+          index === sidebarItems.length - 1 ? '0 16px 16px 0' :
+          '0';
+        return (
+          <motion.div
+            key={view}
+            onClick={() => setActiveView(view)}
+            className="flex-1 card-hover"
+            animate={{
+              backgroundColor: isActive ? `${color}20` : 'rgba(255, 255, 255, 0.7)',
+              borderColor: isActive ? color : 'rgba(229, 231, 235, 0.7)',
+              zIndex: isActive ? 1 : 0,
+            }}
+            transition={{ duration: 0.3 }}
+            whileHover={{ y: -3, scale: 1.01, zIndex: 2 }}
+            whileTap={{ scale: 0.99 }}
+            style={{
+              position: 'relative',
+              padding: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              border: '2px solid rgba(229, 231, 235, 0.7)',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: borderRadius,
+              marginLeft: index === 0 ? '0' : '-2px',
+            }}
+          >
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '16px',
+              flexShrink: 0,
+              background: `${color}20`,
+            }}>
+              <Icon size={24} color={color} />
+            </div>
+            <div>
+              <h4 style={{
+                fontSize: '16px',
+                fontWeight: '700',
+                color: isActive ? color : '#374151',
+                fontFamily: 'Nunito',
+                margin: '0 0 2px 0',
+                transition: 'color 0.3s'
+              }}>
+                {title}
+              </h4>
+              <p style={{
+                fontSize: '13px',
+                color: '#6B7280',
+                fontFamily: 'Nunito',
+                margin: 0,
+              }}>
+                {description}
+              </p>
+            </div>
+          </motion.div>
+        );
+      })}
+    </nav>
+  )}
+</div>
 
         {/* Main Content */}
         <main className="max-w-3xl mx-auto pb-12">

@@ -88,7 +88,7 @@ const ProfileSetupScreen: React.FC = () => {
       });
       
       // Trigger AI care guide generation in the background
-      fetch('http://localhost:3000/api/generate-care-guide', {
+      fetch('https://backend-2-e4ub.onrender.com/api/generate-care-guide', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

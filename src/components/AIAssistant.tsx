@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, X, Send, Loader2, Paperclip, XCircle } from 'lucide-react';
+import { Bot, X, Send, Loader2, Paperclip, XCircle, PawPrint } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { usePet } from '../contexts/PetContext';
 import { supabase } from '../lib/supabase';
@@ -29,7 +29,7 @@ const AIAssistant: React.FC = () => {
     if (!isOpen || !user || !activePet) return;
     setIsLoading(true);
     try {
-        const response = await fetch(`http://localhost:3000/api/chat/history?user_id=${user.id}&pet_id=${activePet.id}`);
+        const response = await fetch(`/api/chat/history?user_id=${user.id}&pet_id=${activePet.id}`);
         if (!response.ok) throw new Error('Failed to fetch history');
         const data = await response.json();
         setMessages(data.history || []);
@@ -137,7 +137,7 @@ const AIAssistant: React.FC = () => {
       logs: petLogs,
     };
     try {
-      const response = await fetch('http://localhost:3000/api/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -189,27 +189,33 @@ const AIAssistant: React.FC = () => {
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
       >
-        <span style={{ fontSize: '24px' }}>🐾</span>
+        <PawPrint size={32} color="#FFFFFF" />
       </button>
 
       {/* Chat Modal */}
       {isOpen && (
         <div
-          style={{
-            position: 'fixed',
-            bottom: '150px',
-            right: '20px',
-            width: '100%',
-            maxWidth: '400px',
-            height: '500px',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 10000,
-            overflow: 'hidden'
-          }}
+        style={{
+          position: 'fixed',
+          left: '50%',
+          bottom: '0',
+          transform: 'translateX(-50%)',
+          width: '100vw',
+          maxWidth: '400px',
+          height: '80vh',
+          maxHeight: '600px',
+          backgroundColor: '#FFFFFF',
+          borderTopLeftRadius: '16px',
+          borderTopRightRadius: '16px',
+          borderBottomLeftRadius: '0',
+          borderBottomRightRadius: '0',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 10000,
+          overflow: 'hidden',
+          touchAction: 'none'
+        }}
         >
           {/* Header */}
           <div style={{

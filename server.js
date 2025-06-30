@@ -25,7 +25,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -576,7 +576,7 @@ app.post('/api/health-score', async (req, res) => {
     const score = match ? Math.min(100, Math.max(0, parseInt(match[0], 10))) : null;
     if (score === null) return res.status(500).json({ error: 'Could not parse health score.' });
     res.json({ score });
-  } catch (error) {
+    } catch (error) {
     console.error('Error generating health score:', error);
     res.status(500).json({ error: 'Failed to generate health score.' });
   }

@@ -258,7 +258,7 @@ const AuthScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 4px', display: 'flex', alignItems: 'center' }}
+              style={{ background: '#fff', border: 'none', cursor: 'pointer', padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, minHeight: 32 }}
             >
               {showPassword ? <EyeOff size={20} color="#6B7280" /> : <Eye size={20} color="#6B7280" />}
             </button>

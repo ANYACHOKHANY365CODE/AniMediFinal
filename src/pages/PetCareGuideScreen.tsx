@@ -203,7 +203,7 @@ const PetCareGuideScreen: React.FC = () => {
   const [aiAnswer, setAiAnswer] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [error, setError] = useState('');
-
+  
   const petType = activePet?.type || 'dog';
   const careData = petCareData[petType];
   let careGuide = undefined;
@@ -298,7 +298,7 @@ const PetCareGuideScreen: React.FC = () => {
     setAiAnswer('');
     setError('');
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch('/.netlify/functions/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -337,8 +337,8 @@ const PetCareGuideScreen: React.FC = () => {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F3F4F6' }}>
-      <div style={{ padding: '32px 0 32px 32px', width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <div style={{ padding: '32px 8px 32px 8px', width: '100%', maxWidth: 500, display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '0 auto', textAlign: 'center' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
           <div

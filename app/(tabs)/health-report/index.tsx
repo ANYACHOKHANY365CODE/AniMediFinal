@@ -50,7 +50,7 @@ const HealthReportScreen = () => {
     setReport(null);
 
     try {
-      const response = await fetch('http://localhost:3000/api/generate-health-report', {
+      const response = await fetch('https://backend-2-e4ub.onrender.com/api/generate-health-report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
