@@ -241,7 +241,7 @@ const AuthScreen: React.FC = () => {
             <Lock size={20} color="#8B5CF6" />
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
+              placeholder="Password (Minimum 6 characters)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
