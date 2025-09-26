@@ -234,14 +234,14 @@ const AuthScreen: React.FC = () => {
             backgroundColor: 'rgba(255, 255, 255, 0.9)',
             borderRadius: '12px',
             padding: '16px',
-            marginBottom: '24px',
+            marginBottom: '12px',
             boxShadow: '0 2px 8px rgba(139, 92, 246, 0.05)',
             border: '1px solid rgba(139, 92, 246, 0.1)'
           }}>
             <Lock size={20} color="#8B5CF6" />
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password (Minimum 6 characters)"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
@@ -262,6 +262,50 @@ const AuthScreen: React.FC = () => {
             >
               {showPassword ? <EyeOff size={20} color="#6B7280" /> : <Eye size={20} color="#6B7280" />}
             </button>
+          </div>
+
+          {/* Password requirements note for register mode */}
+          {!isLogin && (
+            <div style={{
+              marginBottom: '12px',
+              padding: '8px 12px',
+              backgroundColor: 'rgba(139, 92, 246, 0.05)',
+              borderRadius: '8px',
+              border: '1px solid rgba(139, 92, 246, 0.1)'
+            }}>
+              <p style={{
+                fontSize: '12px',
+                color: '#8B5CF6',
+                fontFamily: 'Nunito',
+                margin: 0,
+                fontWeight: '500'
+              }}>
+                📝 Password must be at least 6 characters long
+              </p>
+            </div>
+          )}
+
+          {/* Disclaimer about authentication failures */}
+          <div style={{
+            marginBottom: '24px',
+            padding: '10px 12px',
+            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+            borderRadius: '8px',
+            border: '1px solid rgba(251, 191, 36, 0.2)'
+          }}>
+            <p style={{
+              fontSize: '12px',
+              color: '#D97706',
+              fontFamily: 'Nunito',
+              margin: 0,
+              fontWeight: '500',
+              lineHeight: '1.4'
+            }}>
+              ⚠️ {isLogin 
+                ? 'Login will fail if email or password is incorrect'
+                : 'Registration will fail if requirements are not met or email already exists'
+              }
+            </p>
           </div>
 
           <button
